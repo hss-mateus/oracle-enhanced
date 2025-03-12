@@ -24,7 +24,7 @@ module ActiveRecord
             cursor = nil
             cached = false
             with_retry do
-              if without_prepared_statement?(binds)
+              if binds.nil? || binds.empty?
                 cursor = _connection.prepare(sql)
               else
                 unless @statements.key? sql
@@ -106,7 +106,7 @@ module ActiveRecord
             cursor = nil
             returning_id_col = returning_id_index = nil
             with_retry do
-              if without_prepared_statement?(binds)
+              if binds.nil? || binds.empty?
                 cursor = _connection.prepare(sql)
               else
                 unless @statements.key?(sql)
@@ -146,7 +146,7 @@ module ActiveRecord
           log(sql, name, binds, type_casted_binds) do
             with_retry do
               cached = false
-              if without_prepared_statement?(binds)
+              if binds.nil? || binds.empty?
                 cursor = _connection.prepare(sql)
               else
                 if @statements.key?(sql)
